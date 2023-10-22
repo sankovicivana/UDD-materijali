@@ -11,7 +11,26 @@ services:
       - "9200:9200"
     networks:
       - ddmdemo-network
+#    command: >
+#      bash -c '
+#      if ! elasticsearch-plugin list | grep -q "analysis-icu"; then
+#        elasticsearch-plugin install analysis-icu
+#      else
+#        tail -f /dev/null &
+#      fi'
     restart: always
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.4.3
+    container_name: ddmdemo-logstash
+    ports:
+      - "5044:5044"
+    volumes:
+      - "./logstash-ingest-data/:/usr/share/logstash/ingest_data/"
+      - "./logstash-config/logstash.conf:/usr/share/logstash/pipeline/logstash.conf"
+    restart: always
+    networks:
+      - ddmdemo-network
 
   kibana:
     image: docker.elastic.co/kibana/kibana:8.4.3

@@ -1,0 +1,43 @@
+2023-10-22T17:13:13.408+02:00  INFO 1879 --- [main] com.example.ddmdemo.DdmdemoApplication   : Starting DdmdemoApplication using Java 17.0.9 with PID 1879 (/home/ivanmrsulja/Desktop/UDD-materijali/target/classes started by ivanmrsulja in /home/ivanmrsulja/Desktop/UDD-materijali)
+2023-10-22T17:13:13.410+02:00  INFO 1879 --- [main] com.example.ddmdemo.DdmdemoApplication   : No active profile set, falling back to 1 default profile: "default"
+2023-10-22T17:13:13.680+02:00  INFO 1879 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2023-10-22T17:13:13.685+02:00  INFO 1879 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 2 ms. Found 0 Elasticsearch repository interfaces.
+2023-10-22T17:13:13.775+02:00  INFO 1879 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2023-10-22T17:13:13.801+02:00  INFO 1879 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 26 ms. Found 1 Elasticsearch repository interfaces.
+2023-10-22T17:13:13.805+02:00  INFO 1879 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Reactive Elasticsearch repositories in DEFAULT mode.
+2023-10-22T17:13:13.807+02:00  INFO 1879 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 1 ms. Found 0 Reactive Elasticsearch repository interfaces.
+2023-10-22T17:13:13.929+02:00  INFO 1879 --- [main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=3ef8ec76-cbe5-37b3-a74a-f1e76d89a001
+2023-10-22T17:13:14.103+02:00  INFO 1879 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2023-10-22T17:13:14.109+02:00  INFO 1879 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-10-22T17:13:14.109+02:00  INFO 1879 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.15]
+2023-10-22T17:13:14.165+02:00  INFO 1879 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-10-22T17:13:14.165+02:00  INFO 1879 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 729 ms
+2023-10-22T17:13:15.796+02:00  INFO 1879 --- [main] o.s.cloud.commons.util.InetUtils         : Cannot determine local hostname
+2023-10-22T17:13:15.831+02:00  INFO 1879 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2023-10-22T17:13:16.833+02:00  INFO 1879 --- [main] o.s.cloud.commons.util.InetUtils         : Cannot determine local hostname
+2023-10-22T17:13:16.847+02:00  INFO 1879 --- [main] com.example.ddmdemo.DdmdemoApplication   : Started DdmdemoApplication in 3.79 seconds (process running for 4.007)
+2023-10-22T17:15:03.903+02:00  INFO 1879 --- [http-nio-0.0.0.0-8080-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-10-22T17:15:03.903+02:00  INFO 1879 --- [http-nio-0.0.0.0-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2023-10-22T17:15:03.904+02:00  INFO 1879 --- [http-nio-0.0.0.0-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2023-10-22T17:15:03.923+02:00  INFO 1879 --- [http-nio-0.0.0.0-8080-exec-2] c.e.ddmdemo.controller.FileController    : STATISTIC-LOG serveFile|91d8eb03-5b33-4688-baca-f1bd21874b4b.pdf
+2023-10-22T17:18:58.673+02:00  INFO 2026 --- [main] com.example.ddmdemo.DdmdemoApplication   : Starting DdmdemoApplication using Java 17.0.9 with PID 2026 (/home/ivanmrsulja/Desktop/UDD-materijali/target/classes started by ivanmrsulja in /home/ivanmrsulja/Desktop/UDD-materijali)
+2023-10-22T17:18:58.675+02:00  INFO 2026 --- [main] com.example.ddmdemo.DdmdemoApplication   : No active profile set, falling back to 1 default profile: "default"
+2023-10-22T17:18:58.956+02:00  INFO 2026 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2023-10-22T17:18:58.961+02:00  INFO 2026 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 2 ms. Found 0 Elasticsearch repository interfaces.
+2023-10-22T17:18:59.041+02:00  INFO 2026 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2023-10-22T17:18:59.065+02:00  INFO 2026 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 23 ms. Found 1 Elasticsearch repository interfaces.
+2023-10-22T17:18:59.068+02:00  INFO 2026 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Reactive Elasticsearch repositories in DEFAULT mode.
+2023-10-22T17:18:59.070+02:00  INFO 2026 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 1 ms. Found 0 Reactive Elasticsearch repository interfaces.
+2023-10-22T17:18:59.180+02:00  INFO 2026 --- [main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=3ef8ec76-cbe5-37b3-a74a-f1e76d89a001
+2023-10-22T17:18:59.362+02:00  INFO 2026 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2023-10-22T17:18:59.368+02:00  INFO 2026 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-10-22T17:18:59.368+02:00  INFO 2026 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.15]
+2023-10-22T17:18:59.425+02:00  INFO 2026 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-10-22T17:18:59.426+02:00  INFO 2026 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 724 ms
+2023-10-22T17:19:00.174+02:00  INFO 2026 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2023-10-22T17:19:00.202+02:00  INFO 2026 --- [main] com.example.ddmdemo.DdmdemoApplication   : Started DdmdemoApplication in 1.848 seconds (process running for 2.048)
+2023-10-22T17:19:08.535+02:00  INFO 2026 --- [http-nio-0.0.0.0-8080-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-10-22T17:19:08.536+02:00  INFO 2026 --- [http-nio-0.0.0.0-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2023-10-22T17:19:08.537+02:00  INFO 2026 --- [http-nio-0.0.0.0-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
+2023-10-22T17:19:08.555+02:00  INFO 2026 --- [http-nio-0.0.0.0-8080-exec-2] c.e.ddmdemo.controller.FileController    : STATISTIC-LOG serveFile -> 91d8eb03-5b33-4688-baca-f1bd21874b4b.pdf
+2023-10-22T17:19:09.377+02:00  INFO 2026 --- [http-nio-0.0.0.0-8080-exec-3] c.e.ddmdemo.controller.FileController    : STATISTIC-LOG serveFile -> 91d8eb03-5b33-4688-baca-f1bd21874b4b.pdf
