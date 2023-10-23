@@ -8,6 +8,7 @@ import com.example.ddmdemo.model.DummyTable;
 import com.example.ddmdemo.respository.DummyRepository;
 import com.example.ddmdemo.service.interfaces.FileService;
 import com.example.ddmdemo.service.interfaces.IndexingService;
+import jakarta.transaction.Transactional;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -35,6 +36,7 @@ public class IndexingServiceImpl implements IndexingService {
 
 
     @Override
+    @Transactional
     public String indexDocument(MultipartFile documentFile) {
         var newEntity = new DummyTable();
         var newIndex = new DummyIndex();
@@ -53,6 +55,7 @@ public class IndexingServiceImpl implements IndexingService {
 
         var serverFilename = fileService.store(documentFile, UUID.randomUUID().toString());
         newIndex.setServerFilename(serverFilename);
+        newEntity.setServerFilename(serverFilename);
 
         newEntity.setMimeType(detectMimeType(documentFile));
         var savedEntity = dummyRepository.save(newEntity);

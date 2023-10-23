@@ -26,6 +26,9 @@ public class DummyTable {
     @Column(name = "mime_type")
     private String mimeType;
 
+    @Column(name = "server_filename")
+    private String serverFilename;
+
     @Column(name = "title")
     private String title;
 
