@@ -52,7 +52,8 @@ public class SearchServiceImpl implements SearchService {
             tokens.forEach(token -> {
                 b.should(sb -> sb.match(
                     m -> m.field("title").fuzziness(Fuzziness.ONE.asString()).query(token)));
-                b.should(sb -> sb.match(m -> m.field("content").query(token)));
+                b.should(sb -> sb.match(m -> m.field("content_sr").query(token)));
+                b.should(sb -> sb.match(m -> m.field("content_en").query(token)));
             });
             return b;
         })))._toQuery();
