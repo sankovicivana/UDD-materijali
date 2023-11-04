@@ -1,6 +1,6 @@
 package com.example.ddmdemo.service.interfaces;
 
-import org.springframework.core.io.Resource;
+import io.minio.GetObjectResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -11,5 +11,5 @@ public interface FileService {
 
     void delete(String serverFilename);
 
-    Resource loadAsResource(String serverFilename);
+    GetObjectResponse loadAsResource(String serverFilename);
 }
