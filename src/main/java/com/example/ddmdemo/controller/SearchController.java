@@ -21,12 +21,12 @@ public class SearchController {
     @PostMapping("/simple")
     public Page<DummyIndex> simpleSearch(@RequestBody SearchQueryDTO simpleSearchQuery,
                                          Pageable pageable) {
-        return searchService.simpleSearch(simpleSearchQuery.getKeywords(), pageable);
+        return searchService.simpleSearch(simpleSearchQuery.keywords(), pageable);
     }
 
     @PostMapping("/advanced")
     public Page<DummyIndex> advancedSearch(@RequestBody SearchQueryDTO advancedSearchQuery,
                                            Pageable pageable) {
-        return searchService.advancedSearch(advancedSearchQuery.getKeywords(), pageable);
+        return searchService.advancedSearch(advancedSearchQuery.keywords(), pageable);
     }
 }
