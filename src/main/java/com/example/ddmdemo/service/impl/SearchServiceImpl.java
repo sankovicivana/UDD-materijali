@@ -1,10 +1,13 @@
 package com.example.ddmdemo.service.impl;
 
+import co.elastic.clients.elasticsearch._types.FieldValue;
 import co.elastic.clients.elasticsearch._types.query_dsl.BoolQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
+import co.elastic.clients.elasticsearch._types.query_dsl.TermsQueryField;
 import com.example.ddmdemo.exceptionhandling.exception.MalformedQueryException;
 import com.example.ddmdemo.indexmodel.DummyIndex;
 import com.example.ddmdemo.service.interfaces.SearchService;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.elasticsearch.common.unit.Fuzziness;
@@ -50,10 +53,53 @@ public class SearchServiceImpl implements SearchService {
     private Query buildSimpleSearchQuery(List<String> tokens) {
         return BoolQuery.of(q -> q.must(mb -> mb.bool(b -> {
             tokens.forEach(token -> {
+                // Term Query - simplest
+                // Matches documents with exact term in "title" field
+//            b.should(sb -> sb.term(m -> m.field("title").value(token)));
+
+                // Terms Query
+                // Matches documents with any of the specified terms in "title" field
+//            var terms = new ArrayList<>(List.of("dummy1", "dummy2"));
+//            var titleTerms = new TermsQueryField.Builder()
+//                .value(terms.stream().map(FieldValue::of).toList())
+//                .build();
+//            b.should(sb -> sb.terms(m -> m.field("title").terms(titleTerms)));
+
+                // Match Query - full-text search with fuzziness
+                // Matches documents with fuzzy matching in "title" field
                 b.should(sb -> sb.match(
                     m -> m.field("title").fuzziness(Fuzziness.ONE.asString()).query(token)));
+
+                // Match Query - full-text search in other fields
+                // Matches documents with full-text search in other fields
+                b.should(sb -> sb.match(m -> m.field("content_sr").query(token)));
                 b.should(sb -> sb.match(m -> m.field("content_sr").query(token)));
                 b.should(sb -> sb.match(m -> m.field("content_en").query(token)));
+
+                // Wildcard Query - unsafe
+                // Matches documents with wildcard matching in "title" field
+//            b.should(sb -> sb.wildcard(m -> m.field("title").value("*" + token + "*")));
+
+                // Regexp Query - unsafe
+                // Matches documents with regular expression matching in "title" field
+//            b.should(sb -> sb.regexp(m -> m.field("title").value(".*" + token + ".*")));
+
+                // Boosting Query - positive gives better score, negative lowers score
+                // Matches documents with boosted relevance in "title" field
+//            b.should(sb -> sb.boosting(bq -> bq.positive(m -> m.match(ma -> ma.field("title").query(token)))
+//                                              .negative(m -> m.match(ma -> ma.field("description").query(token)))
+//                                              .negativeBoost(0.5f)));
+
+                // Match Phrase Query - useful for exact-phrase search
+                // Matches documents with exact phrase match in "title" field
+//            b.should(sb -> sb.matchPhrase(m -> m.field("title").query(token)));
+
+                // Fuzzy Query - similar to Match Query with fuzziness, useful for spelling errors
+                // Matches documents with fuzzy matching in "title" field
+//            b.should(sb -> sb.match(
+//                m -> m.field("title").fuzziness(Fuzziness.ONE.asString()).query(token)));
+
+                // Range query - not applicable for dummy index, searches in the range from-to
             });
             return b;
         })))._toQuery();
