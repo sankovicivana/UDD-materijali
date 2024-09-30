@@ -1,5 +1,6 @@
 package com.example.ddmdemo.service.impl;
 
+import ai.djl.translate.TranslateException;
 import com.example.ddmdemo.exceptionhandling.exception.LoadingException;
 import com.example.ddmdemo.exceptionhandling.exception.StorageException;
 import com.example.ddmdemo.indexmodel.DummyIndex;
@@ -8,6 +9,7 @@ import com.example.ddmdemo.model.DummyTable;
 import com.example.ddmdemo.respository.DummyRepository;
 import com.example.ddmdemo.service.interfaces.FileService;
 import com.example.ddmdemo.service.interfaces.IndexingService;
+import com.example.ddmdemo.util.VectorizationUtil;
 import jakarta.transaction.Transactional;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -15,6 +17,7 @@ import java.nio.file.Path;
 import java.util.Objects;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.tika.Tika;
@@ -24,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class IndexingServiceImpl implements IndexingService {
 
     private final DummyIndexRepository dummyIndexRepository;
@@ -60,6 +64,12 @@ public class IndexingServiceImpl implements IndexingService {
         newEntity.setMimeType(detectMimeType(documentFile));
         var savedEntity = dummyRepository.save(newEntity);
 
+        try {
+            newIndex.setVectorizedContent(VectorizationUtil.getEmbedding(title));
+        } catch (TranslateException e) {
+            log.error("Could not calculate vector representation for document with ID: {}",
+                savedEntity.getId());
+        }
         newIndex.setDatabaseId(savedEntity.getId());
         dummyIndexRepository.save(newIndex);
 

@@ -35,4 +35,7 @@ public class DummyIndex {
 
     @Field(type = FieldType.Integer, store = true, name = "database_id")
     private Integer databaseId;
+
+    @Field(type = FieldType.Dense_Vector, dims = 384, similarity = "l2_norm")
+    private float[] vectorizedContent;
 }

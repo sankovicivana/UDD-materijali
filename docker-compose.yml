@@ -1,7 +1,7 @@
 version: "3.7"
 services:
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.4.3
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.15.2
     container_name: ddmdemo-elasticsearch
     environment:
       - discovery.type=single-node
@@ -21,7 +21,7 @@ services:
     restart: always
 
   logstash:
-    image: docker.elastic.co/logstash/logstash:8.4.3
+    image: docker.elastic.co/logstash/logstash:8.15.2
     container_name: ddmdemo-logstash
     ports:
       - "5044:5044"
@@ -33,7 +33,7 @@ services:
       - ddmdemo-network
 
   kibana:
-    image: docker.elastic.co/kibana/kibana:8.4.3
+    image: docker.elastic.co/kibana/kibana:8.15.2
     container_name: ddmdemo-kibana
     ports:
       - "5601:5601"
@@ -42,7 +42,7 @@ services:
     restart: always
 
   minio:
-    image: quay.io/minio/minio
+    image: quay.io/minio/minio:latest
     container_name: ddmdemo-minio
     ports:
       - 9000:9000

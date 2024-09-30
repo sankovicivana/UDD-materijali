@@ -1,38 +1,66 @@
 package com.example.ddmdemo.service.impl;
 
-import co.elastic.clients.elasticsearch._types.FieldValue;
 import co.elastic.clients.elasticsearch._types.query_dsl.BoolQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
-import co.elastic.clients.elasticsearch._types.query_dsl.TermsQueryField;
 import com.example.ddmdemo.exceptionhandling.exception.MalformedQueryException;
 import com.example.ddmdemo.indexmodel.DummyIndex;
 import com.example.ddmdemo.service.interfaces.SearchService;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.common.unit.Fuzziness;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.client.elc.NativeQuery;
 import org.springframework.data.elasticsearch.client.elc.NativeQueryBuilder;
+import org.springframework.data.elasticsearch.client.erhlc.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
+import org.springframework.data.elasticsearch.core.SearchHit;
 import org.springframework.data.elasticsearch.core.SearchHitSupport;
 import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class SearchServiceImpl implements SearchService {
 
     private final ElasticsearchOperations elasticsearchTemplate;
 
+
     @Override
     public Page<DummyIndex> simpleSearch(List<String> keywords, Pageable pageable) {
+        System.out.println(buildSimpleSearchQuery(keywords).toString());
+
         var searchQueryBuilder =
             new NativeQueryBuilder().withQuery(buildSimpleSearchQuery(keywords))
                 .withPageable(pageable);
 
         return runQuery(searchQueryBuilder.build());
+    }
+
+    public List<DummyIndex> searchByVector(float[] queryVector) {
+        Map<String, Object> knnQueryBody = Map.of(
+            "knn", Map.of(
+                "field", "vectorizedContent",
+                "query_vector", queryVector,
+                "k", 10,
+                "num_candidates", 100
+            )
+        );
+
+        var query = new NativeSearchQueryBuilder()
+            .withQuery(QueryBuilders.wrapperQuery(knnQueryBody.toString()))
+            .build();
+
+        return elasticsearchTemplate.search(query, DummyIndex.class)
+            .getSearchHits()
+            .stream()
+            .map(SearchHit::getContent)
+            .collect(Collectors.toList());
     }
 
     @Override
@@ -55,7 +83,7 @@ public class SearchServiceImpl implements SearchService {
             tokens.forEach(token -> {
                 // Term Query - simplest
                 // Matches documents with exact term in "title" field
-//            b.should(sb -> sb.term(m -> m.field("title").value(token)));
+                b.should(sb -> sb.term(m -> m.field("title").value(token)));
 
                 // Terms Query
                 // Matches documents with any of the specified terms in "title" field
@@ -72,34 +100,40 @@ public class SearchServiceImpl implements SearchService {
 
                 // Match Query - full-text search in other fields
                 // Matches documents with full-text search in other fields
-                b.should(sb -> sb.match(m -> m.field("content_sr").query(token)));
-                b.should(sb -> sb.match(m -> m.field("content_sr").query(token)));
+                b.should(sb -> sb.match(m -> m.field("content_sr").query(token).boost(0.5f)));
                 b.should(sb -> sb.match(m -> m.field("content_en").query(token)));
 
                 // Wildcard Query - unsafe
                 // Matches documents with wildcard matching in "title" field
-//            b.should(sb -> sb.wildcard(m -> m.field("title").value("*" + token + "*")));
+//                b.should(sb -> sb.wildcard(m -> m.field("title").value("*" + token + "*")));
 
                 // Regexp Query - unsafe
                 // Matches documents with regular expression matching in "title" field
-//            b.should(sb -> sb.regexp(m -> m.field("title").value(".*" + token + ".*")));
+//                b.should(sb -> sb.regexp(m -> m.field("title").value(".*" + token + ".*")));
 
                 // Boosting Query - positive gives better score, negative lowers score
                 // Matches documents with boosted relevance in "title" field
-//            b.should(sb -> sb.boosting(bq -> bq.positive(m -> m.match(ma -> ma.field("title").query(token)))
+//                b.should(sb -> sb.boosting(bq -> bq.positive(m -> m.match(ma -> ma.field("title").query(token)))
 //                                              .negative(m -> m.match(ma -> ma.field("description").query(token)))
 //                                              .negativeBoost(0.5f)));
 
                 // Match Phrase Query - useful for exact-phrase search
                 // Matches documents with exact phrase match in "title" field
-//            b.should(sb -> sb.matchPhrase(m -> m.field("title").query(token)));
+                b.should(sb -> sb.matchPhrase(m -> m.field("title").query(token)));
 
                 // Fuzzy Query - similar to Match Query with fuzziness, useful for spelling errors
                 // Matches documents with fuzzy matching in "title" field
-//            b.should(sb -> sb.match(
-//                m -> m.field("title").fuzziness(Fuzziness.ONE.asString()).query(token)));
+                b.should(sb -> sb.match(
+                    m -> m.field("title").fuzziness(Fuzziness.ONE.asString()).query(token)));
 
                 // Range query - not applicable for dummy index, searches in the range from-to
+
+                // More Like This query - finds documents similar to the provided text
+                b.should(sb -> sb.moreLikeThis(mlt -> mlt
+                    .fields("title")
+                    .like(like -> like.text(token))
+                    .minTermFreq(1)
+                    .minDocFreq(1)));
             });
             return b;
         })))._toQuery();
@@ -129,7 +163,6 @@ public class SearchServiceImpl implements SearchService {
                     b.mustNot(sb -> sb.match(m -> m.field(field2).query(value2)));
                     break;
             }
-
             return b;
         })))._toQuery();
     }
