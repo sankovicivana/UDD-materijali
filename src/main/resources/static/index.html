@@ -96,8 +96,10 @@
                         <input type="text" id="query" name="query" placeholder="Query" class="form-control" style="width: 70%;">
                         <div class="input-group-append">
                             <div class="input-group-text" style="max-height: 40px; width: 200px;">
-                                <input type="checkbox" id="queryType" name="queryType" class="form-check-input" style="margin-left: 5px;">
-                                <label for="queryType" style="display:inline-block; margin-left: 25px; margin-top: 10px;">Advanced Query</label>
+                                <input type="checkbox" id="queryTypeAdvanced" name="queryType" class="form-check-input" style="margin-left: 2px;">
+                                <label for="queryTypeAdvanced" style="display:inline-block; margin-left: 20px; margin-top: 10px;">Advanced Query</label>
+                                <input type="checkbox" id="queryTypeKNN" name="queryType" class="form-check-input" style="margin-left: 120px;">
+                                <label for="queryTypeKNN" style="display:inline-block; margin-left: 27px; margin-top: 10px;">A-KNN</label>
                             </div>
                         </div>
                     </div>
@@ -141,7 +143,7 @@
                 var query = {
                     keywords: $("#query").val().split(" ")
                 };
-                var url = '/api/search/' + ($("#queryType").is(':checked') ? 'advanced' : 'simple');
+                var url = '/api/search/' + ($("#queryTypeAdvanced").is(':checked') ? 'advanced' : 'simple') + '?isKnn=' + ($("#queryTypeKNN").is(':checked') ? 'true' : 'false');
                 $.ajax({
                     url: url,
                     type: 'POST',

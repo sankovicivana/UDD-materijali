@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -19,9 +20,10 @@ public class SearchController {
     private final SearchService searchService;
 
     @PostMapping("/simple")
-    public Page<DummyIndex> simpleSearch(@RequestBody SearchQueryDTO simpleSearchQuery,
+    public Page<DummyIndex> simpleSearch(@RequestParam Boolean isKnn,
+                                         @RequestBody SearchQueryDTO simpleSearchQuery,
                                          Pageable pageable) {
-        return searchService.simpleSearch(simpleSearchQuery.keywords(), pageable);
+        return searchService.simpleSearch(simpleSearchQuery.keywords(), pageable, isKnn);
     }
 
     @PostMapping("/advanced")

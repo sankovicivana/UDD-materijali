@@ -1,24 +1,25 @@
 package com.example.ddmdemo.service.impl;
 
+import ai.djl.translate.TranslateException;
+import co.elastic.clients.elasticsearch._types.KnnQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.BoolQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import com.example.ddmdemo.exceptionhandling.exception.MalformedQueryException;
 import com.example.ddmdemo.indexmodel.DummyIndex;
 import com.example.ddmdemo.service.interfaces.SearchService;
+import com.example.ddmdemo.util.VectorizationUtil;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
+import joptsimple.internal.Strings;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.common.unit.Fuzziness;
-import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.client.elc.NativeQuery;
 import org.springframework.data.elasticsearch.client.elc.NativeQueryBuilder;
-import org.springframework.data.elasticsearch.client.erhlc.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
-import org.springframework.data.elasticsearch.core.SearchHit;
 import org.springframework.data.elasticsearch.core.SearchHitSupport;
 import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
 import org.springframework.stereotype.Service;
@@ -32,9 +33,17 @@ public class SearchServiceImpl implements SearchService {
 
 
     @Override
-    public Page<DummyIndex> simpleSearch(List<String> keywords, Pageable pageable) {
-        System.out.println(buildSimpleSearchQuery(keywords).toString());
+    public Page<DummyIndex> simpleSearch(List<String> keywords, Pageable pageable, boolean isKNN) {
+        if (isKNN) {
+            try {
+                return searchByVector(VectorizationUtil.getEmbedding(Strings.join(keywords, " ")));
+            } catch (TranslateException e) {
+                log.error("Vectorization failed");
+                return Page.empty();
+            }
+        }
 
+        System.out.println(buildSimpleSearchQuery(keywords).toString());
         var searchQueryBuilder =
             new NativeQueryBuilder().withQuery(buildSimpleSearchQuery(keywords))
                 .withPageable(pageable);
@@ -42,25 +51,33 @@ public class SearchServiceImpl implements SearchService {
         return runQuery(searchQueryBuilder.build());
     }
 
-    public List<DummyIndex> searchByVector(float[] queryVector) {
-        Map<String, Object> knnQueryBody = Map.of(
-            "knn", Map.of(
-                "field", "vectorizedContent",
-                "query_vector", queryVector,
-                "k", 10,
-                "num_candidates", 100
-            )
-        );
+    public Page<DummyIndex> searchByVector(float[] queryVector) {
+        Float[] floatObjects = new Float[queryVector.length];
+        for (int i = 0; i < queryVector.length; i++) {
+            floatObjects[i] = queryVector[i];
+        }
+        List<Float> floatList = Arrays.stream(floatObjects).collect(Collectors.toList());
 
-        var query = new NativeSearchQueryBuilder()
-            .withQuery(QueryBuilders.wrapperQuery(knnQueryBody.toString()))
+        var knnQuery = new KnnQuery.Builder()
+            .field("vectorizedContent")
+            .queryVector(floatList)
+            .numCandidates(100)
+            .k(10)
+            .boost(10.0f)
             .build();
 
-        return elasticsearchTemplate.search(query, DummyIndex.class)
-            .getSearchHits()
-            .stream()
-            .map(SearchHit::getContent)
-            .collect(Collectors.toList());
+        var searchQuery = NativeQuery.builder()
+            .withKnnQuery(knnQuery)
+            .withMaxResults(5)
+            .withSearchType(null)
+            .build();
+
+        var searchHitsPaged =
+            SearchHitSupport.searchPageFor(
+                elasticsearchTemplate.search(searchQuery, DummyIndex.class),
+                searchQuery.getPageable());
+
+        return (Page<DummyIndex>) SearchHitSupport.unwrapSearchHits(searchHitsPaged);
     }
 
     @Override
