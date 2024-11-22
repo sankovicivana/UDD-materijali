@@ -8,7 +8,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface DummyIndexRepository
     extends ElasticsearchRepository<DummyIndex, String> {
-
-    @Query("{\"knn\": {\"field\": \"vectorizedContent\", \"query_vector\": ?0, \"k\": 10, \"num_candidates\": 100}}")
-    DummyIndex searchByVector(float[] queryVector);
 }

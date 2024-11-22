@@ -55,7 +55,7 @@ public class IndexingServiceImpl implements IndexingService {
         } else {
             newIndex.setContentEn(documentContent);
         }
-        newEntity.setTitle(title);
+        newEntity.setContent(documentContent);
 
         var serverFilename = fileService.store(documentFile, UUID.randomUUID().toString());
         newIndex.setServerFilename(serverFilename);
