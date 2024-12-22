@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class IndexController {
 
-    private final IndexingService indexingService;
+    private final IndexingService indexingService = null;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

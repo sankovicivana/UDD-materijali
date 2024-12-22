@@ -89,11 +89,6 @@
 			<artifactId>elasticsearch</artifactId>
 			<version>8.13.3</version>
 		</dependency>
-		<dependency>
-		    <groupId>mysql</groupId>
-		    <artifactId>mysql-connector-java</artifactId>
-		    <version>8.0.33</version>
-		</dependency>
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>

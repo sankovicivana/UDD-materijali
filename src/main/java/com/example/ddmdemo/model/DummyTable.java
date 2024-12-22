@@ -34,4 +34,46 @@ public class DummyTable {
 
     @Column(name = "content")
     private String content;
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getMimeType() {
+		return mimeType;
+	}
+
+	public void setMimeType(String mimeType) {
+		this.mimeType = mimeType;
+	}
+
+	public String getServerFilename() {
+		return serverFilename;
+	}
+
+	public void setServerFilename(String serverFilename) {
+		this.serverFilename = serverFilename;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	
 }

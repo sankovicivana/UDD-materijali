@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class SearchController {
 
-    private final SearchService searchService;
+    private final SearchService searchService = null;
 
     @PostMapping("/simple")
     public Page<DummyIndex> simpleSearch(@RequestParam Boolean isKnn,

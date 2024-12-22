@@ -38,4 +38,62 @@ public class DummyIndex {
 
     @Field(type = FieldType.Dense_Vector, dims = 384, similarity = "cosine")
     private float[] vectorizedContent;
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getContentSr() {
+		return contentSr;
+	}
+
+	public void setContentSr(String contentSr) {
+		this.contentSr = contentSr;
+	}
+
+	public String getContentEn() {
+		return contentEn;
+	}
+
+	public void setContentEn(String contentEn) {
+		this.contentEn = contentEn;
+	}
+
+	public String getServerFilename() {
+		return serverFilename;
+	}
+
+	public void setServerFilename(String serverFilename) {
+		this.serverFilename = serverFilename;
+	}
+
+	public Integer getDatabaseId() {
+		return databaseId;
+	}
+
+	public void setDatabaseId(Integer databaseId) {
+		this.databaseId = databaseId;
+	}
+
+	public float[] getVectorizedContent() {
+		return vectorizedContent;
+	}
+
+	public void setVectorizedContent(float[] vectorizedContent) {
+		this.vectorizedContent = vectorizedContent;
+	}
+
+	
 }

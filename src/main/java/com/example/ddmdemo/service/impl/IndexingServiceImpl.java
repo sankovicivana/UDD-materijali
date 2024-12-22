@@ -30,14 +30,13 @@ import org.springframework.web.multipart.MultipartFile;
 @Slf4j
 public class IndexingServiceImpl implements IndexingService {
 
-    private final DummyIndexRepository dummyIndexRepository;
+    private final DummyIndexRepository dummyIndexRepository = null;
 
-    private final DummyRepository dummyRepository;
+    private final DummyRepository dummyRepository = null;
 
-    private final FileService fileService;
+    private final FileService fileService = null;
 
-    private final LanguageDetector languageDetector;
-
+    private final LanguageDetector languageDetector = null;
 
     @Override
     @Transactional

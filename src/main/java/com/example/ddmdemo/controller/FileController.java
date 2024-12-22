@@ -22,12 +22,12 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class FileController {
 
-    private final FileService fileService;
+    private final FileService fileService = null;
 
     @GetMapping("/{filename}")
     @ResponseBody
     public ResponseEntity<Resource> serveFile(@PathVariable String filename) throws IOException {
-        log.info("STATISTIC-LOG serveFile -> " + filename);
+        System.out.println("STATISTIC-LOG serveFile -> " + filename);
 
         var minioResponse = fileService.loadAsResource(filename);
         return ResponseEntity.ok()

@@ -21,7 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 public class FileServiceMinioImpl implements FileService {
 
-    private final MinioClient minioClient;
+    private final MinioClient minioClient = null;
 
     @Value("${spring.minio.bucket}")
     private String bucketName;
