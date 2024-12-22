@@ -19,8 +19,8 @@ services:
     ports:
       - "5044:5044"
     volumes:
-      - "../logstash-ingest-data/:/usr/share/logstash/ingest_data/"
-      - "../logstash-config/logstash.conf:/usr/share/logstash/pipeline/logstash.conf"
+      - "./logstash-ingest-data/:/usr/share/logstash/ingest_data/"
+      - "./logstash-config/logstash.conf:/usr/share/logstash/pipeline/logstash.conf"
     restart: always
     networks:
       - elk-network
