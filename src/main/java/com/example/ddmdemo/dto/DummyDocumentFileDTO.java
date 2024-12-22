@@ -1,16 +1,6 @@
 package com.example.ddmdemo.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-public class DummyDocumentFileDTO {
-
-    private MultipartFile file;
+public record DummyDocumentFileDTO(MultipartFile file) {
 }

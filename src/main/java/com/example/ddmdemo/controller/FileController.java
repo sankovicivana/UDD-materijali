@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -28,11 +29,11 @@ public class FileController {
     public ResponseEntity<Resource> serveFile(@PathVariable String filename) throws IOException {
         log.info("STATISTIC-LOG serveFile -> " + filename);
 
-        var file = fileService.loadAsResource(filename);
+        var minioResponse = fileService.loadAsResource(filename);
         return ResponseEntity.ok()
             .header(HttpHeaders.CONTENT_DISPOSITION,
-                "attachment; filename=\"" + file.getFilename() + "\"")
+                minioResponse.headers().get("Content-Disposition"))
             .header(HttpHeaders.CONTENT_TYPE, Files.probeContentType(Path.of(filename)))
-            .body(file);
+            .body(new InputStreamResource(minioResponse));
     }
 }

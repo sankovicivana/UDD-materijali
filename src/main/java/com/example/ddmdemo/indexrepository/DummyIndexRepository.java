@@ -1,6 +1,7 @@
 package com.example.ddmdemo.indexrepository;
 
 import com.example.ddmdemo.indexmodel.DummyIndex;
+import org.springframework.data.elasticsearch.annotations.Query;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 import org.springframework.stereotype.Repository;
 

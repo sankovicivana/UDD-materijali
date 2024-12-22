@@ -6,9 +6,10 @@ import com.example.ddmdemo.service.interfaces.SearchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -18,15 +19,16 @@ public class SearchController {
 
     private final SearchService searchService;
 
-    @GetMapping("/simple")
-    public Page<DummyIndex> simpleSearch(@RequestBody SearchQueryDTO simpleSearchQuery,
+    @PostMapping("/simple")
+    public Page<DummyIndex> simpleSearch(@RequestParam Boolean isKnn,
+                                         @RequestBody SearchQueryDTO simpleSearchQuery,
                                          Pageable pageable) {
-        return searchService.simpleSearch(simpleSearchQuery.getKeywords(), pageable);
+        return searchService.simpleSearch(simpleSearchQuery.keywords(), pageable, isKnn);
     }
 
-    @GetMapping("/advanced")
+    @PostMapping("/advanced")
     public Page<DummyIndex> advancedSearch(@RequestBody SearchQueryDTO advancedSearchQuery,
                                            Pageable pageable) {
-        return searchService.advancedSearch(advancedSearchQuery.getKeywords(), pageable);
+        return searchService.advancedSearch(advancedSearchQuery.keywords(), pageable);
     }
 }

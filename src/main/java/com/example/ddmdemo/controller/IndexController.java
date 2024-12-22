@@ -22,7 +22,7 @@ public class IndexController {
     @ResponseStatus(HttpStatus.CREATED)
     public DummyDocumentFileResponseDTO addDocumentFile(
         @ModelAttribute DummyDocumentFileDTO documentFile) {
-        var serverFilename = indexingService.indexDocument(documentFile.getFile());
+        var serverFilename = indexingService.indexDocument(documentFile.file());
         return new DummyDocumentFileResponseDTO(serverFilename);
     }
 }

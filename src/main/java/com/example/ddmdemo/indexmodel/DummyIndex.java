@@ -1,6 +1,6 @@
 package com.example.ddmdemo.indexmodel;
 
-import javax.persistence.Id;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,12 +24,18 @@ public class DummyIndex {
     @Field(type = FieldType.Text, store = true, name = "title")
     private String title;
 
-    @Field(type = FieldType.Text, store = true, name = "content", analyzer = "serbian_simple", searchAnalyzer = "serbian_simple")
-    private String content;
+    @Field(type = FieldType.Text, store = true, name = "content_sr", analyzer = "serbian_simple", searchAnalyzer = "serbian_simple")
+    private String contentSr;
+
+    @Field(type = FieldType.Text, store = true, name = "content_en", analyzer = "english", searchAnalyzer = "english")
+    private String contentEn;
 
     @Field(type = FieldType.Text, store = true, name = "server_filename", index = false)
     private String serverFilename;
 
     @Field(type = FieldType.Integer, store = true, name = "database_id")
     private Integer databaseId;
+
+    @Field(type = FieldType.Dense_Vector, dims = 384, similarity = "cosine")
+    private float[] vectorizedContent;
 }
