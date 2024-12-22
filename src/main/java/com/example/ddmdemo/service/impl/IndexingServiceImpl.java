@@ -66,8 +66,8 @@ public class IndexingServiceImpl implements IndexingService {
         try {
             newIndex.setVectorizedContent(VectorizationUtil.getEmbedding(title));
         } catch (TranslateException e) {
-            log.error("Could not calculate vector representation for document with ID: {}",
-                savedEntity.getId());
+            //log.error("Could not calculate vector representation for document with ID: {}",
+                //savedEntity.getId());
         }
         newIndex.setDatabaseId(savedEntity.getId());
         dummyIndexRepository.save(newIndex);

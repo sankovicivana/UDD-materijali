@@ -29,7 +29,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class SearchServiceImpl implements SearchService {
 
-    private final ElasticsearchOperations elasticsearchTemplate;
+    private final ElasticsearchOperations elasticsearchTemplate = null;
 
 
     @Override
@@ -38,7 +38,7 @@ public class SearchServiceImpl implements SearchService {
             try {
                 return searchByVector(VectorizationUtil.getEmbedding(Strings.join(keywords, " ")));
             } catch (TranslateException e) {
-                log.error("Vectorization failed");
+                //log.error("Vectorization failed");
                 return Page.empty();
             }
         }
